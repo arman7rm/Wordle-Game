@@ -5,13 +5,13 @@ let messageBoard = document.querySelector(".message-board");
 let playAgainBtn = document.querySelector(".play-again-btn");
 
 const handleSubmit = () => {
-  const letter1 = document.getElementById("box1").value;
-  const letter2 = document.getElementById("box2").value;
-  const letter3 = document.getElementById("box3").value;
-  const letter4 = document.getElementById("box4").value;
-  const letter5 = document.getElementById("box5").value;
+    const guesses = document.querySelectorAll(".guess-input");
+    let boxes = Array.from(guesses[guesses.length - 1].children);
 
-  const guess = letter1 + letter2 + letter3 + letter4 + letter5;
+    let guess = "";
+    boxes.forEach((box) => {
+        guess += box.value;
+    });
 
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
@@ -20,8 +20,7 @@ const handleSubmit = () => {
   } else {
     if (count < 6) {
       messageBoard.textContent = "Not Quite! Have another go!";
-      const guesses = document.querySelectorAll(".guess-input");
-      let boxes = Array.from(guesses[guesses.length - 1].children);
+      
       boxes.forEach((box, index) => {
         if (box.value == secret[index]) {
           box.style.border = "2px solid green";
