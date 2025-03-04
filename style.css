@@ -1,0 +1,31 @@
+.container-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.main{
+    width: 50%;
+    justify-content: center;
+    margin: auto;
+}
+
+.container-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.heading{
+    text-align: center;
+}
+
+.jc-sa{
+    justify-content: space-around;
+}
+
+.play-again-btn{
+    display: none;
+}
+
+.show {
+    display: block;
+}
