@@ -1,5 +1,5 @@
 let secret;
-const wordOfDayUrl = "https://words.dev-apis.com/word-of-the-day";
+const wordOfDayUrl = "https://words.dev-apis.com/word-of-the-day?random=1";
 let count = 1;
 let messageBoard = document.querySelector(".message-board");
 let playAgainBtn = document.querySelector(".play-again-btn");
@@ -20,6 +20,18 @@ const handleSubmit = () => {
   } else {
     if (count < 6) {
       messageBoard.textContent = "Not Quite! Have another go!";
+      const guesses = document.querySelectorAll(".guess-input");
+      let boxes = Array.from(guesses[guesses.length - 1].children);
+      boxes.forEach((box, index) => {
+        if (box.value == secret[index]) {
+          box.style.border = "2px solid green";
+        } else if (secret.includes(box.value)) {
+          box.style.border = "2px solid orange";
+        } else {
+          box.style.border = "2px solid red";
+        }
+      });
+
       let input = document.createElement("div");
       input.innerHTML = `
         <div class="container-row guess-input">
@@ -32,6 +44,7 @@ const handleSubmit = () => {
       `;
       count++;
       document.querySelector(".guess-container").appendChild(input);
+      handleNavigation();
     } else {
       messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
       playAgainBtn.style.display = "block";
@@ -48,9 +61,10 @@ const getSecretWord = async (url) => {
 // Call this function once the page loads
 const initializeGame = async () => {
   await getSecretWord(wordOfDayUrl); // Fetch the secret word before starting the game
-  messageBoard.textContent = "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
+  messageBoard.textContent =
+    "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
 
-console.log(secret);
+  console.log(secret);
 };
 
 initializeGame(); // Initialize the game and set the secret word
@@ -58,7 +72,7 @@ initializeGame(); // Initialize the game and set the secret word
 playAgainBtn.addEventListener("click", async () => {
   count = 1;
   document.querySelector(".guess-container").innerHTML = `
-    <div class="container-col">
+    <div class="container-row">
       <input class="guess-box" type="text" maxlength="1" id="box1">
       <input class="guess-box" type="text" maxlength="1" id="box2">
       <input class="guess-box" type="text" maxlength="1" id="box3">
@@ -74,14 +88,18 @@ let submitBtn = document.querySelector(".submit-btn");
 submitBtn.addEventListener("click", handleSubmit);
 
 // Handle input navigation
-const boxes = document.querySelectorAll(".guess-box");
-boxes.forEach((box, index) => {
-  box.addEventListener("input", () => {
-    if (box.value.length === 1 && index < boxes.length - 1) {
-      boxes[index + 1].focus();
-    }
-    if (box.value.length === 0 && index > 0) {
-      boxes[index - 1].focus();
-    }
+const handleNavigation = () => {
+  const boxes = document.querySelectorAll(".guess-box");
+  boxes.forEach((box, index) => {
+    box.addEventListener("input", () => {
+      if (box.value.length === 1 && index < boxes.length - 1) {
+        boxes[index + 1].focus();
+      }
+      if (box.value.length === 0 && index > 0) {
+        boxes[index - 1].focus();
+      }
+    });
   });
-});
+};
+
+handleNavigation();

@@ -181,7 +181,7 @@ body {
     margin: 0 10px 0 10px;
     font-size: 1.2rem;
     text-align: center;
-    border: 2px solid #ffcc00;
+    border: 2px solid white;
     border-radius: 10px;
     background-color: #1a1a1a;
     color: #ffffff;
@@ -191,6 +191,18 @@ body {
     margin-top: 10px;
 }
 
+.correct {
+
+    border: 2px solid green;
+}
+.incorrect {
+
+    border: 2px solid red;
+}
+
+.misplaced{
+    border: 2px solid #ffcc00;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .main {
