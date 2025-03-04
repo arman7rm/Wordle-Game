@@ -39,12 +39,10 @@ const handleSubmit = () => {
     }
   }
 };
-
 async function getSecretWord(url) {
   const promise = await fetch(url, { method: "GET" });
   const processedResponse = await promise.json();
   secret = processedResponse.word;
-  document.querySelector(".secret-word").textContent = secret;
 }
 
 let submitBtn = document.querySelector(".submit-btn");
