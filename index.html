@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,26 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="main container-col">
         <h1 class="heading">Wordle</h1>
         <div class="guess-container container-col">
-            <input class="guess1" type="text">
+            <div class="container-row guess-input">
+                <input class="guess-box" type="text" maxlength="1" id="box1">
+                <input class="guess-box" type="text" maxlength="1" id="box2">
+                <input class="guess-box" type="text" maxlength="1" id="box3">
+                <input class="guess-box" type="text" maxlength="1" id="box4">
+                <input class="guess-box" type="text" maxlength="1" id="box5">
+            </div>
         </div>
+
         <button class="submit-btn">Submit</button>
-        <h2 class="message-board">Think you can guess the word of the day? Go ahead! Take a guess!</h2>
-        <button class="play-again-btn">Play Again?</button>
+        <h2 class="message-board">Think you can guess the five letter word of the day? Go ahead! Take a guess!</h2>
+        <button class="play-again-btn" style="display: none;">Play Again?</button>
     </div>
-    
 
     <script src="script.js"></script>
 </body>
+
 </html>

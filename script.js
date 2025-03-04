@@ -1,51 +1,87 @@
 let secret;
-
 const wordOfDayUrl = "https://words.dev-apis.com/word-of-the-day";
 let count = 1;
 let messageBoard = document.querySelector(".message-board");
-
 let playAgainBtn = document.querySelector(".play-again-btn");
 
-playAgainBtn.addEventListener("click", async () => {
-  const randomWordUrl =
-    "https://words.dev-apis.com/wordof-the-day/get-word-of-the-day?random=1";
-  getSecretWord(randomWordUrl);
-  count = 1;
-  document.querySelector(".guess-container").innerHTML =
-    '<input class="guess1" type="text">';
-  messageBoard.textContent =
-    "Think you can guess the word of the day? Go ahead! Take a guess!";
-  playAgainBtn.style.display = "none";
-});
-
 const handleSubmit = () => {
-  let guess = document.querySelector(`.guess${count}`).value;
-  console.log(guess);
-  if (guess == secret) {
+  const letter1 = document.getElementById("box1").value;
+  const letter2 = document.getElementById("box2").value;
+  const letter3 = document.getElementById("box3").value;
+  const letter4 = document.getElementById("box4").value;
+  const letter5 = document.getElementById("box5").value;
+
+  const guess = letter1 + letter2 + letter3 + letter4 + letter5;
+
+  if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
     playAgainBtn.style.display = "block";
     document.querySelector(".main").appendChild(playAgainBtn);
   } else {
     if (count < 6) {
       messageBoard.textContent = "Not Quite! Have another go!";
-      let input = document.createElement("input");
-      input.type = "text";
+      let input = document.createElement("div");
+      input.innerHTML = `
+        <div class="container-row guess-input">
+                <input class="guess-box" type="text" maxlength="1" id="box1">
+                <input class="guess-box" type="text" maxlength="1" id="box2">
+                <input class="guess-box" type="text" maxlength="1" id="box3">
+                <input class="guess-box" type="text" maxlength="1" id="box4">
+                <input class="guess-box" type="text" maxlength="1" id="box5">
+            </div>
+      `;
       count++;
-      input.classList.add(`guess${count}`);
       document.querySelector(".guess-container").appendChild(input);
     } else {
-      messageBoard.textContent = "Sorry! You took too may tries! Game Over!";
+      messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
       playAgainBtn.style.display = "block";
     }
   }
 };
-async function getSecretWord(url) {
-  const promise = await fetch(url, { method: "GET" });
-  const processedResponse = await promise.json();
-  secret = processedResponse.word;
-}
+
+const getSecretWord = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  secret = data.word; // Set the secret word
+};
+
+// Call this function once the page loads
+const initializeGame = async () => {
+  await getSecretWord(wordOfDayUrl); // Fetch the secret word before starting the game
+  messageBoard.textContent = "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
+
+console.log(secret);
+};
+
+initializeGame(); // Initialize the game and set the secret word
+
+playAgainBtn.addEventListener("click", async () => {
+  count = 1;
+  document.querySelector(".guess-container").innerHTML = `
+    <div class="container-col">
+      <input class="guess-box" type="text" maxlength="1" id="box1">
+      <input class="guess-box" type="text" maxlength="1" id="box2">
+      <input class="guess-box" type="text" maxlength="1" id="box3">
+      <input class="guess-box" type="text" maxlength="1" id="box4">
+      <input class="guess-box" type="text" maxlength="1" id="box5">
+    </div>
+  `;
+  playAgainBtn.style.display = "none";
+  await initializeGame(); // Fetch a new secret word when playing again
+});
 
 let submitBtn = document.querySelector(".submit-btn");
 submitBtn.addEventListener("click", handleSubmit);
 
-getSecretWord(wordOfDayUrl);
+// Handle input navigation
+const boxes = document.querySelectorAll(".guess-box");
+boxes.forEach((box, index) => {
+  box.addEventListener("input", () => {
+    if (box.value.length === 1 && index < boxes.length - 1) {
+      boxes[index + 1].focus();
+    }
+    if (box.value.length === 0 && index > 0) {
+      boxes[index - 1].focus();
+    }
+  });
+});
