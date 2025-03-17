@@ -19,6 +19,7 @@ const handleSubmit = () => {
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
     playAgainBtn.style.display = "block";
+    submitBtn.style.display = "none";
     document.querySelector(".main").appendChild(playAgainBtn);
   } else {
     if (count < 6) {
