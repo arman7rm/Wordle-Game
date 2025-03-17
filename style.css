@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: column;
 }
-
+.answer{
+    display: none;
+}
 .main{
     width: 50%;
     justify-content: center;

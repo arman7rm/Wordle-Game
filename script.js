@@ -3,6 +3,7 @@ const wordOfDayUrl = "https://words.dev-apis.com/word-of-the-day?random=1";
 let count = 1;
 let messageBoard = document.querySelector(".message-board");
 let playAgainBtn = document.querySelector(".play-again-btn");
+var answer = document.querySelector(".answer");
 
 const handleSubmit = () => {
     const guesses = document.querySelectorAll(".guess-input");
@@ -46,6 +47,8 @@ const handleSubmit = () => {
       handleNavigation();
     } else {
       messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
+      answer.textContent = `The correct answer was: ${secret}`;
+      answer.style.display ="block";
       playAgainBtn.style.display = "block";
     }
   }
@@ -62,8 +65,6 @@ const initializeGame = async () => {
   await getSecretWord(wordOfDayUrl); // Fetch the secret word before starting the game
   messageBoard.textContent =
     "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
-
-  console.log(secret);
 };
 
 initializeGame(); // Initialize the game and set the secret word
@@ -80,11 +81,14 @@ playAgainBtn.addEventListener("click", async () => {
     </div>
   `;
   playAgainBtn.style.display = "none";
+  answer.style.display = "none";
   await initializeGame(); // Fetch a new secret word when playing again
+  handleNavigation();
 });
 
 let submitBtn = document.querySelector(".submit-btn");
 submitBtn.addEventListener("click", handleSubmit);
+
 
 // Handle input navigation
 const handleNavigation = () => {
