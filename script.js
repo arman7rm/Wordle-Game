@@ -9,6 +9,7 @@ let submitBtn = document.querySelector(".submit-btn");
 
 const handleSubmit = () => {
     const guesses = document.querySelectorAll(".guess-input");
+    console.log(guesses);
     let boxes = Array.from(guesses[guesses.length - 1].children);
 
     let guess = "";
@@ -78,7 +79,7 @@ initializeGame(); // Initialize the game and set the secret word
 playAgainBtn.addEventListener("click", async () => {
   count = 1;
   document.querySelector(".guess-container").innerHTML = `
-    <div class="container-row">
+    <div class="container-row guess-input">
       <input class="guess-box" type="text" maxlength="1" id="box1">
       <input class="guess-box" type="text" maxlength="1" id="box2">
       <input class="guess-box" type="text" maxlength="1" id="box3">
@@ -89,6 +90,7 @@ playAgainBtn.addEventListener("click", async () => {
   playAgainBtn.style.display = "none";
   answer.style.display = "none";
   submitBtn.style.display = "block";
+  submitBtn.addEventListener("click", handleSubmit);
   await initializeGame(); // Fetch a new secret word when playing again
   handleNavigation();
 });
