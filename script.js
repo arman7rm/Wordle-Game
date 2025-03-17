@@ -5,6 +5,7 @@ let messageBoard = document.querySelector(".message-board");
 let playAgainBtn = document.querySelector(".play-again-btn");
 var answer = document.querySelector(".answer");
 var triesLeft = document.querySelector(".tries-left");
+let submitBtn = document.querySelector(".submit-btn");
 
 const handleSubmit = () => {
     const guesses = document.querySelectorAll(".guess-input");
@@ -49,6 +50,7 @@ const handleSubmit = () => {
       handleNavigation();
     } else {
       triesLeft.style.display = "none";
+      submitBtn.style.display = "none";
       messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
       answer.textContent = `The correct answer was: ${secret}`;
       answer.style.display ="block";
@@ -85,11 +87,12 @@ playAgainBtn.addEventListener("click", async () => {
   `;
   playAgainBtn.style.display = "none";
   answer.style.display = "none";
+  submitBtn.style.display = "block";
   await initializeGame(); // Fetch a new secret word when playing again
   handleNavigation();
 });
 
-let submitBtn = document.querySelector(".submit-btn");
+
 submitBtn.addEventListener("click", handleSubmit);
 
 
