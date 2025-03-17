@@ -4,6 +4,7 @@ let count = 1;
 let messageBoard = document.querySelector(".message-board");
 let playAgainBtn = document.querySelector(".play-again-btn");
 var answer = document.querySelector(".answer");
+var triesLeft = document.querySelector(".tries-left");
 
 const handleSubmit = () => {
     const guesses = document.querySelectorAll(".guess-input");
@@ -21,7 +22,8 @@ const handleSubmit = () => {
   } else {
     if (count < 6) {
       messageBoard.textContent = "Not Quite! Have another go!";
-      
+      triesLeft.textContent = `You have ${6-count} tries left`;
+      triesLeft.style.display = "block";
       boxes.forEach((box, index) => {
         if (box.value == secret[index]) {
           box.style.border = "2px solid green";
@@ -46,6 +48,7 @@ const handleSubmit = () => {
       document.querySelector(".guess-container").appendChild(input);
       handleNavigation();
     } else {
+      triesLeft.style.display = "none";
       messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
       answer.textContent = `The correct answer was: ${secret}`;
       answer.style.display ="block";

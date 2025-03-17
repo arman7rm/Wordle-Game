@@ -4,6 +4,15 @@
 }
 .answer{
     display: none;
+    font-size: 1.2rem;
+    color: red;
+    margin-top: 20px;
+}
+.tries-left{
+    display: none;
+    font-size: 1.2rem;
+    color: #ffcc00;
+    margin-top: 20px;
 }
 .main{
     width: 50%;
