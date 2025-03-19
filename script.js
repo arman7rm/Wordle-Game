@@ -42,7 +42,7 @@ const handleSubmit = () => {
   boxes.forEach((box) => {
     guess += box.value;
   });
-
+  guess = guess.toLowerCase();
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
     const winningBoxes = document.querySelectorAll(".guess-box");
