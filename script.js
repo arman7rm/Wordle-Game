@@ -7,15 +7,40 @@ var answer = document.querySelector(".answer");
 var triesLeft = document.querySelector(".tries-left");
 let submitBtn = document.querySelector(".submit-btn");
 
-const handleSubmit = () => {
-    const guesses = document.querySelectorAll(".guess-input");
-    console.log(guesses);
-    let boxes = Array.from(guesses[guesses.length - 1].children);
+const initializeGame = async () => {
+  await getSecretWord(wordOfDayUrl); // Fetch the secret word before starting the game
+  document.addEventListener("keydown", function handleKeyPress(event) {
+    const action = event.key;
+    if (action == "Enter") {
+      const boxes = document.querySelectorAll(".guess-box");
+      let i = boxes.length-1;
+      while(boxes[i].value.length===0)i--;
+      if(i!=0 && (i+1)%5==0){
+        handleSubmit();
+      }
+    }
+    else if (action == "Backspace") {
+      const boxes = document.querySelectorAll(".guess-box");
+      let i = boxes.length-1;
+      while(boxes[i].value.length===0)i--;
+      if(i>=0){
+        boxes[i].value='';
+        boxes[i].focus();
+      }
+    }
+  });
+  messageBoard.textContent =
+    "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
+};
 
-    let guess = "";
-    boxes.forEach((box) => {
-        guess += box.value;
-    });
+const handleSubmit = () => {
+  const guesses = document.querySelectorAll(".guess-input");
+  let boxes = Array.from(guesses[guesses.length - 1].children);
+
+  let guess = "";
+  boxes.forEach((box) => {
+    guess += box.value;
+  });
 
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
@@ -25,7 +50,7 @@ const handleSubmit = () => {
   } else {
     if (count < 6) {
       messageBoard.textContent = "Not Quite! Have another go!";
-      triesLeft.textContent = `You have ${6-count} tries left`;
+      triesLeft.textContent = `You have ${6 - count} tries left`;
       triesLeft.style.display = "block";
       boxes.forEach((box, index) => {
         if (box.value == secret[index]) {
@@ -49,15 +74,18 @@ const handleSubmit = () => {
       `;
       count++;
       document.querySelector(".guess-container").appendChild(input);
-      handleNavigation();
+      const lastGuessBox = document.querySelectorAll(".guess-box");
+      lastGuessBox[lastGuessBox.length-5].focus();
     } else {
       triesLeft.style.display = "none";
       submitBtn.style.display = "none";
       messageBoard.textContent = "Sorry! You took too many tries! Game Over!";
       answer.textContent = `The correct answer was: ${secret}`;
-      answer.style.display ="block";
+      answer.style.display = "block";
       playAgainBtn.style.display = "block";
     }
+
+    handleNavigation();
   }
 };
 
@@ -67,12 +95,7 @@ const getSecretWord = async (url) => {
   secret = data.word; // Set the secret word
 };
 
-// Call this function once the page loads
-const initializeGame = async () => {
-  await getSecretWord(wordOfDayUrl); // Fetch the secret word before starting the game
-  messageBoard.textContent =
-    "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
-};
+
 
 initializeGame(); // Initialize the game and set the secret word
 
@@ -95,9 +118,7 @@ playAgainBtn.addEventListener("click", async () => {
   handleNavigation();
 });
 
-
 submitBtn.addEventListener("click", handleSubmit);
-
 
 // Handle input navigation
 const handleNavigation = () => {
