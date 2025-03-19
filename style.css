@@ -222,6 +222,10 @@ body {
     border: 2px solid #ffcc00;
 }
 
+.message-board{
+    line-height: 36px;
+}
+
 .footer{
     position: relative;
     margin-bottom: 40px;
