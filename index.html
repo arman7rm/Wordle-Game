@@ -30,7 +30,13 @@
         <button class="play-again-btn" style="display: none;">Play Again?</button>
     </div>
 
+    <div class="footer">
+        <p>Created by <a class="myLink" href="https://arman7rm.github.io/portfolio/">Mohamed Salam</a></p>
+        <div class="container-row" style="justify-content: center; text-align: center;"><p class="established">2021</p></div>
+    </div>
     <script src="script.js"></script>
 </body>
-
+<script>
+    document.querySelector(".established").textContent = `Copyright © ${new Date().getFullYear().toString()}`;
+</script>  
 </html>
