@@ -29,6 +29,7 @@ const initializeGame = async () => {
       }
     }
   });
+  console.log(secret);
   messageBoard.textContent =
     "Think you can guess the five letter word of the day? Go ahead! Take a guess!";
 };
@@ -44,6 +45,15 @@ const handleSubmit = () => {
 
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
+    const winningBoxes = document.querySelectorAll(".guess-box");
+    let i = winningBoxes.length-1;
+    let j = 5;
+    while(j>0){
+      j--;
+      winningBoxes[i].classList.add("winningBox");
+      i--;
+    }
+    document.querySelector(".tries-left").textContent = '';
     playAgainBtn.style.display = "block";
     submitBtn.style.display = "none";
     document.querySelector(".main").appendChild(playAgainBtn);
