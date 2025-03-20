@@ -23,7 +23,7 @@ const initializeGame = async () => {
       const boxes = document.querySelectorAll(".guess-box");
       let i = boxes.length-1;
       while(boxes[i].value.length===0)i--;
-      if(i/5==count-1){
+      if(Math.floor(i/5)===count-1){
         boxes[i].value='';
         boxes[i].focus();
       }
