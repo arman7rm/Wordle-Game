@@ -15,7 +15,7 @@ const initializeGame = async () => {
       const boxes = document.querySelectorAll(".guess-box");
       let i = boxes.length-1;
       while(boxes[i].value.length===0)i--;
-      if(i!=0 && (i+1)%5==0){
+      if(i!=0 && (i+1)/5==count){
         handleSubmit();
       }
     }
@@ -23,7 +23,7 @@ const initializeGame = async () => {
       const boxes = document.querySelectorAll(".guess-box");
       let i = boxes.length-1;
       while(boxes[i].value.length===0)i--;
-      if(i>=0){
+      if(i/5==count-1){
         boxes[i].value='';
         boxes[i].focus();
       }
@@ -42,6 +42,13 @@ const handleSubmit = () => {
   boxes.forEach((box) => {
     guess += box.value;
   });
+  if(guess.length<5){
+    const boxes = document.querySelectorAll(".guess-box");
+    let i = boxes.length-1;
+    while(boxes[i].value.length===0 && i/5>count-1)i--;
+    boxes[i].focus();
+    return;
+  }
   guess = guess.toLowerCase();
   if (guess === secret) {
     messageBoard.textContent = "Congratulations, you won!";
